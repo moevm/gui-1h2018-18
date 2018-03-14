@@ -1,24 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>MainWindow</class>
- <widget class="QMainWindow" name="MainWindow" >
-  <property name="geometry" >
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>408</width>
+    <height>632</height>
    </rect>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>MainWindow</string>
   </property>
-  <widget class="QMenuBar" name="menuBar" />
-  <widget class="QToolBar" name="mainToolBar" />
-  <widget class="QWidget" name="centralWidget" />
-  <widget class="QStatusBar" name="statusBar" />
+  <widget class="QWidget" name="centralWidget">
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <widget class="QStackedWidget" name="stackedWidget">
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="page">
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <item>
+         <widget class="QTabWidget" name="tabWidget">
+          <property name="currentIndex">
+           <number>0</number>
+          </property>
+          <widget class="AllNewsTab" name="allNewsTab">
+           <attribute name="title">
+            <string>All News</string>
+           </attribute>
+          </widget>
+          <widget class="GroupsTab" name="groupsTab">
+           <attribute name="title">
+            <string>Groups</string>
+           </attribute>
+          </widget>
+          <widget class="SettingsTab" name="settingsTab">
+           <attribute name="title">
+            <string>Settings</string>
+           </attribute>
+          </widget>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="CurrentNews" name="page_2"/>
+     </widget>
+    </item>
+   </layout>
+  </widget>
  </widget>
- <layoutDefault spacing="6" margin="11" />
- <pixmapfunction></pixmapfunction>
+ <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>AllNewsTab</class>
+   <extends>QWidget</extends>
+   <header location="global">allnewstab.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>GroupsTab</class>
+   <extends>QWidget</extends>
+   <header location="global">groupstab.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>SettingsTab</class>
+   <extends>QWidget</extends>
+   <header location="global">settingstab.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>CurrentNews</class>
+   <extends>QWidget</extends>
+   <header location="global">currentnews.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

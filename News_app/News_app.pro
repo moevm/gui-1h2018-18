@@ -25,10 +25,28 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        mainwindow.cpp
+        mainwindow.cpp \
+    allnewstab.cpp \
+    groupstab.cpp \
+    settingstab.cpp \
+    currentnews.cpp \
+    authwindow.cpp \
+    newsitem.cpp
 
 HEADERS += \
-        mainwindow.h
+        mainwindow.h \
+    allnewstab.h \
+    groupstab.h \
+    settingstab.h \
+    currentnews.h \
+    authwindow.h \
+    newsitem.h
 
 FORMS += \
-        mainwindow.ui
+        mainwindow.ui \
+    allnewstab.ui \
+    groupstab.ui \
+    settingstab.ui \
+    currentnews.ui \
+    authwindow.ui \
+    newsitem.ui
