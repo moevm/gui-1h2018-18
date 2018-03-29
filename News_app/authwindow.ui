@@ -11,35 +11,35 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Authorization</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QVBoxLayout" name="verticalLayout">
+   <layout class="QHBoxLayout" name="horizontalLayout">
     <item>
      <widget class="QSplitter" name="splitter_2">
       <property name="orientation">
        <enum>Qt::Vertical</enum>
       </property>
       <widget class="QWidget" name="layoutWidget">
-       <layout class="QFormLayout" name="formLayout">
-        <item row="0" column="0">
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <item>
          <widget class="QLabel" name="emailLabel">
           <property name="text">
            <string>User e-mail</string>
           </property>
          </widget>
         </item>
-        <item row="1" column="0">
+        <item>
          <widget class="QLineEdit" name="emailInput"/>
         </item>
-        <item row="2" column="0">
+        <item>
          <widget class="QLabel" name="passwordLabel">
           <property name="text">
            <string>Password</string>
           </property>
          </widget>
         </item>
-        <item row="3" column="0">
+        <item>
          <widget class="QLineEdit" name="lineEdit_2"/>
         </item>
        </layout>
