@@ -94,7 +94,7 @@ public:
 
     void retranslateUi(QMainWindow *MainWindow)
     {
-        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", nullptr));
+        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "News Agregator", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(allNewsTab), QApplication::translate("MainWindow", "All News", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(groupsTab), QApplication::translate("MainWindow", "Groups", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(settingsTab), QApplication::translate("MainWindow", "Settings", nullptr));

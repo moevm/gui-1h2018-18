@@ -19,6 +19,7 @@ public:
     ~AllNewsTab();
     QListWidgetItem *getCurrentItem();
     QWidget * getCurrentItemWidget();
+    QWidget * getCurrentW2();
     QList<NewsItem> getNewsFromJson(QString);
     QList<NewsItem> getNewsFromXML (QString);
 

@@ -13,7 +13,7 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
-#include <QtWidgets/QFormLayout>
+#include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
@@ -29,10 +29,10 @@ class Ui_AuthWindow
 {
 public:
     QWidget *centralwidget;
-    QVBoxLayout *verticalLayout;
+    QHBoxLayout *horizontalLayout;
     QSplitter *splitter_2;
     QWidget *layoutWidget;
-    QFormLayout *formLayout;
+    QVBoxLayout *verticalLayout;
     QLabel *emailLabel;
     QLineEdit *emailInput;
     QLabel *passwordLabel;
@@ -48,35 +48,35 @@ public:
         AuthWindow->resize(341, 168);
         centralwidget = new QWidget(AuthWindow);
         centralwidget->setObjectName(QStringLiteral("centralwidget"));
-        verticalLayout = new QVBoxLayout(centralwidget);
-        verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
+        horizontalLayout = new QHBoxLayout(centralwidget);
+        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
         splitter_2 = new QSplitter(centralwidget);
         splitter_2->setObjectName(QStringLiteral("splitter_2"));
         splitter_2->setOrientation(Qt::Vertical);
         layoutWidget = new QWidget(splitter_2);
         layoutWidget->setObjectName(QStringLiteral("layoutWidget"));
-        formLayout = new QFormLayout(layoutWidget);
-        formLayout->setObjectName(QStringLiteral("formLayout"));
-        formLayout->setContentsMargins(0, 0, 0, 0);
+        verticalLayout = new QVBoxLayout(layoutWidget);
+        verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
+        verticalLayout->setContentsMargins(0, 0, 0, 0);
         emailLabel = new QLabel(layoutWidget);
         emailLabel->setObjectName(QStringLiteral("emailLabel"));
 
-        formLayout->setWidget(0, QFormLayout::LabelRole, emailLabel);
+        verticalLayout->addWidget(emailLabel);
 
         emailInput = new QLineEdit(layoutWidget);
         emailInput->setObjectName(QStringLiteral("emailInput"));
 
-        formLayout->setWidget(1, QFormLayout::LabelRole, emailInput);
+        verticalLayout->addWidget(emailInput);
 
         passwordLabel = new QLabel(layoutWidget);
         passwordLabel->setObjectName(QStringLiteral("passwordLabel"));
 
-        formLayout->setWidget(2, QFormLayout::LabelRole, passwordLabel);
+        verticalLayout->addWidget(passwordLabel);
 
         lineEdit_2 = new QLineEdit(layoutWidget);
         lineEdit_2->setObjectName(QStringLiteral("lineEdit_2"));
 
-        formLayout->setWidget(3, QFormLayout::LabelRole, lineEdit_2);
+        verticalLayout->addWidget(lineEdit_2);
 
         splitter_2->addWidget(layoutWidget);
         splitter = new QSplitter(splitter_2);
@@ -90,7 +90,7 @@ public:
         splitter->addWidget(signUpButton);
         splitter_2->addWidget(splitter);
 
-        verticalLayout->addWidget(splitter_2);
+        horizontalLayout->addWidget(splitter_2);
 
         AuthWindow->setCentralWidget(centralwidget);
 
@@ -101,7 +101,7 @@ public:
 
     void retranslateUi(QMainWindow *AuthWindow)
     {
-        AuthWindow->setWindowTitle(QApplication::translate("AuthWindow", "MainWindow", nullptr));
+        AuthWindow->setWindowTitle(QApplication::translate("AuthWindow", "Authorization", nullptr));
         emailLabel->setText(QApplication::translate("AuthWindow", "User e-mail", nullptr));
         passwordLabel->setText(QApplication::translate("AuthWindow", "Password", nullptr));
         signInButton->setText(QApplication::translate("AuthWindow", "Sing In", nullptr));
