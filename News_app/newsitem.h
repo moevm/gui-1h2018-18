@@ -13,6 +13,13 @@ class NewsItem : public QWidget
 
 public:
     explicit NewsItem(QWidget *parent = 0);
+    explicit NewsItem(QString name, QString text, QWidget *parent = 0);
+    NewsItem(const NewsItem&);
+    NewsItem operator=(const NewsItem& other) const;
+    void setName(QString);
+    void setText(QString);
+    QString getName();
+    QString getText();
     ~NewsItem();
 
 private slots:
@@ -22,6 +29,8 @@ signals:
     void readNews();
 private:
     Ui::NewsItem *ui;
+    QString text;
+    QString name;
 };
 
 #endif // NEWSITEM_H

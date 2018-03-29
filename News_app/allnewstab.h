@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QListWidgetItem>
 #include "newsitem.h"
+#include <QList>
 
 namespace Ui {
 class AllNewsTab;
@@ -18,10 +19,14 @@ public:
     ~AllNewsTab();
     QListWidgetItem *getCurrentItem();
     QWidget * getCurrentItemWidget();
+    QList<NewsItem> getNewsFromJson(QString);
+    QList<NewsItem> getNewsFromXML (QString);
+
 
 private:
     Ui::AllNewsTab *ui;
     NewsItem *itemWidget;
+    QList<NewsItem> *allNews;
 };
 
 #endif // ALLNEWSTAB_H
