@@ -13,63 +13,17 @@ AllNewsTab::AllNewsTab(QWidget *parent) :
     ui(new Ui::AllNewsTab)
 {
     ui->setupUi(this);
-    QList<NewsItem> fromJson = getNewsFromJson("[{\"name\":\"«Травля идет со всех сторон». Тулеев заявил о попытках «раскачать ситуацию» в регионе\", \"text\":\"Губернатор Кузбасса Аман Тулеев записал 10-минутное видеообращение, в котором, в частности, рассказал о том, что «определенные силы целенаправленно пытаются стравить людей» и «раскачать ситуацию» в регионе. \" }, {\"name\":\"«Первому игроку приготовиться» Стивена Спилберга: не гениальный фильм, но фильм гения\", \"text\":\"В российский прокат выходит «Первому игроку приготовиться» — новый фильм Стивена Спилберга о мире будущего, в котором все обитатели Земли проводят время в виртуальной реальности, вдохновленной 1980-ми, временем расцвета самого Спилберга как режиссера.\" }]");
-//    QList<NewsItem> fromXML = getNewsFromXML("<?xml version=\"1.0\" encoding=\"utf-8\"?><newslist><news><name>Новость</name><text>Текст новости</text></news><news><name>Новость2</name><text>Текст новости2</text></news></newslist>");
-    allNews = new QList<NewsItem>(fromJson);
-//    allNews->append(fromXML);
 
+    allNews = new QList<NewsItem>();
 
-    QListWidgetItem *item = new QListWidgetItem(ui->newsListWidget);
-    ui->newsListWidget->addItem(item);
-    NewsItem* newNews = &(allNews->first());
-    QString name = newNews->getName();
-    QString text = newNews->getText();
+    QNetworkAccessManager* networkManager = new QNetworkAccessManager(this);
 
-    item->setSizeHint(QSize(0, 100));
-    ui->newsListWidget->setItemWidget(item, newNews);
+    QUrl url("https://meduza.io/api/v3/search?chrono=news&locale=ru&page=0&per_page=24");
+    QNetworkRequest request(url);
 
+    QNetworkReply* currentReply = networkManager->get(request);
 
-    QListWidgetItem *item2 = new QListWidgetItem(ui->newsListWidget);
-    ui->newsListWidget->addItem(item2);
-    NewsItem* newNews2 = &((*allNews)[1]);
-
-    item2->setSizeHint(QSize(0, 100));
-    ui->newsListWidget->setItemWidget(item2, newNews2);
-
-
-
-//    QListWidgetItem *item3 = new QListWidgetItem(ui->newsListWidget);
-//    ui->newsListWidget->addItem(item3);
-//    NewsItem* newNews3 = &((*allNews)[2]);
-
-//    item2->setSizeHint(QSize(0, 100));
-//    ui->newsListWidget->setItemWidget(item3, newNews3);
-
-
-
-
-//    QListWidgetItem *item4 = new QListWidgetItem(ui->newsListWidget);
-//    ui->newsListWidget->addItem(item4);
-//    NewsItem* newNews4 = &((*allNews)[3]);
-
-//    item2->setSizeHint(QSize(0, 100));
-//    ui->newsListWidget->setItemWidget(item4, newNews2);
-
-
-
-
-//    foreach (NewsItem value, (*allNews)) {
-//        QListWidgetItem *item = new QListWidgetItem(ui->newsListWidget);
-//        ui->newsListWidget->addItem(item);
-//        NewsItem* newNews = &value;
-//        QString name = newNews->getName();
-//        QString text = newNews->getText();
-
-//        item->setSizeHint(QSize(0,100));
-//        ui->newsListWidget->setItemWidget(item, newNews);
-//    }
-
-
+    connect(networkManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(getNewsFromJson(QNetworkReply*)));
 }
 
 AllNewsTab::~AllNewsTab()
@@ -93,21 +47,36 @@ QWidget *AllNewsTab::getCurrentW2()
     return &(*allNews)[1];
 }
 
-QList<NewsItem> AllNewsTab::getNewsFromJson(QString json)
+void AllNewsTab::accessJson()
 {
-    QJsonDocument doc = QJsonDocument::fromJson(json.toUtf8());
-    QJsonArray array = doc.array();
-    QList<NewsItem> news = QList<NewsItem>();
-    for(int i = 0; i < array.size(); ++i){
-        QJsonObject obj = array[i].toObject();
-        NewsItem newItem = NewsItem();
-        newItem.setName(obj["name"].toString());
-        newItem.setText(obj["text"].toString());
 
+}
+
+void AllNewsTab::getNewsFromJson(QNetworkReply* reply)
+{
+    if (reply->error() != QNetworkReply::NoError)
+            return;
+
+    qint64 resSize = reply->size();
+    QString res = (QString) reply->readAll();
+    QJsonDocument doc = QJsonDocument::fromJson(res.toUtf8());
+    QJsonObject root = doc.object();
+    QJsonObject documents = root["documents"].toObject();
+    QStringList	allKeys = documents.keys();
+    QList<NewsItem> news = QList<NewsItem>();
+    foreach(QString str, allKeys){
+        QJsonObject post = documents[str].toObject();
+        NewsItem newItem = NewsItem();
+        QString t1 = post["url"].toString();
+        QString t2 = post["title"].toString();
+        newItem.setName(post["url"].toString());
+        newItem.setText(post["title"].toString());
         news.append(newItem);
     }
 
-    return news;
+    allNews->append(news);
+
+    onFinishJsonParse();
 
 }
 
@@ -116,4 +85,25 @@ QList<NewsItem> AllNewsTab::getNewsFromXML(QString xmlt)
 
 
 
+}
+
+
+void AllNewsTab::onFinishJsonParse()
+{
+    QList<QListWidgetItem> widgetItems = QList<QListWidgetItem>();
+    for(int i = 0; i < allNews->size(); i++){
+        widgetItems.append((*(new QListWidgetItem(ui->newsListWidget))));
+    }
+    int i = 0;
+    foreach (NewsItem newsitem, (*allNews)) {
+        addItemToList((&widgetItems[i]), (&newsitem));
+    }
+
+}
+
+void AllNewsTab::addItemToList(QListWidgetItem *item, NewsItem* news)
+{
+    ui->newsListWidget->addItem(item);
+    item->setSizeHint(QSize(0, 100));
+    ui->newsListWidget->setItemWidget(item, news);
 }
