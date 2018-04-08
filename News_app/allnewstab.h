@@ -26,10 +26,11 @@ public:
     QWidget * getCurrentItemWidget();
     QWidget * getCurrentW2();
     void accessJson();
-    QList<NewsItem> getNewsFromXML (QString);
+    void getNewsFromXML ();
     void onFinishJsonParse();
+    void onFinishXMLParse();
     void addItemToList(QListWidgetItem* item, NewsItem* news);
-
+    QWidget * transformToWidget(NewsItem *);
 private:
     Ui::AllNewsTab *ui;
     NewsItem *itemWidget;

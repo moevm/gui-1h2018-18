@@ -19,10 +19,15 @@ NewsItem::NewsItem(QString name, QString text, QWidget *parent):
     ui->textBrowser->setText(this->text);
 }
 
-NewsItem::NewsItem(const NewsItem & other) :
-    NewsItem(other.name, other.text)
+NewsItem::NewsItem(const NewsItem & other, QWidget *parent):
+    QWidget(parent),
+    ui(new Ui::NewsItem)
 {
-
+    ui->setupUi(this);
+    this->name = other.name;
+    this->text = other.text;
+    ui->newsTitle->setText(this->name);
+    ui->textBrowser->setText(this->text);
 }
 
 NewsItem NewsItem::operator=(const NewsItem &other) const
