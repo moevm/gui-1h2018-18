@@ -79,8 +79,14 @@
       <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
         <widget class="QCheckBox" name="meduzaCheckBox">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
          <property name="text">
           <string>Meduza</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
          </property>
         </widget>
        </item>

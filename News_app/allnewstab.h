@@ -17,7 +17,9 @@ class AllNewsTab : public QWidget
     Q_OBJECT
 
 private slots:
-    void getNewsFromJson(QNetworkReply* reply);
+    void getParsedNews(QNetworkReply* reply);
+    void convertReplyToImage(QNetworkReply *reply);
+    void readNews (QUrl link);
 
 public:
     explicit AllNewsTab(QWidget *parent = 0);
@@ -25,16 +27,21 @@ public:
     QListWidgetItem *getCurrentItem();
     QWidget * getCurrentItemWidget();
     QWidget * getCurrentW2();
-    void accessJson();
-    void getNewsFromXML ();
-    void onFinishJsonParse();
-    void onFinishXMLParse();
     void addItemToList(QListWidgetItem* item, NewsItem* news);
+    void onFinishXMLParse();
     QWidget * transformToWidget(NewsItem *);
+    void loadNews();
+
 private:
     Ui::AllNewsTab *ui;
     NewsItem *itemWidget;
     QList<NewsItem> *allNews;
+    QImage tempImage;
+    void downloadImage(QUrl url);
+
+signals:
+    void readNewsSignal(QUrl link);
+
 };
 
 #endif // ALLNEWSTAB_H

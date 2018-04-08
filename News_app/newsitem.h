@@ -2,6 +2,7 @@
 #define NEWSITEM_H
 
 #include <QWidget>
+#include <QUrl>
 
 namespace Ui {
 class NewsItem;
@@ -22,15 +23,23 @@ public:
     QString getText();
     ~NewsItem();
 
+    QImage getImg() const;
+    void setImg(const QImage &value);
+
+    QUrl getLink() const;
+    void setLink(const QUrl &value);
+
 private slots:
     void on_readButton_clicked();
 
 signals:
-    void readNews();
+    void readItemNews(QUrl newsLink);
 private:
     Ui::NewsItem *ui;
     QString text;
     QString name;
+    QUrl link;
+    QImage img;
 };
 
 #endif // NEWSITEM_H

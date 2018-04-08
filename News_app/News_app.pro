@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui network
+QT       += core gui network webkitwidgets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -31,7 +31,9 @@ SOURCES += \
     settingstab.cpp \
     currentnews.cpp \
     authwindow.cpp \
-    newsitem.cpp
+    newsitem.cpp \
+    xmlnewsreader.cpp \
+    parsednews.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -40,7 +42,9 @@ HEADERS += \
     settingstab.h \
     currentnews.h \
     authwindow.h \
-    newsitem.h
+    newsitem.h \
+    xmlnewsreader.h \
+    parsednews.h
 
 FORMS += \
         mainwindow.ui \
