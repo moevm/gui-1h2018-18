@@ -2,8 +2,6 @@
 #define CURRENTNEWS_H
 
 #include <QWidget>
-#include <QWebView>
-
 namespace Ui {
 class CurrentNews;
 }

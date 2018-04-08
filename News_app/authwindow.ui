@@ -23,14 +23,14 @@
       <widget class="QWidget" name="layoutWidget">
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
-         <widget class="QLabel" name="emailLabel">
+         <widget class="QLabel" name="loginLabel">
           <property name="text">
-           <string>User e-mail</string>
+           <string>User login</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="emailInput"/>
+         <widget class="QLineEdit" name="loginInput"/>
         </item>
         <item>
          <widget class="QLabel" name="passwordLabel">
@@ -40,7 +40,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="lineEdit_2"/>
+         <widget class="QLineEdit" name="passwordInput"/>
         </item>
        </layout>
       </widget>

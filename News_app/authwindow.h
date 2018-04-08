@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "mainwindow.h"
+#include <QSettings>
 
 namespace Ui {
 class AuthWindow;
@@ -24,6 +25,7 @@ private slots:
 private:
     Ui::AuthWindow *ui;
     MainWindow *mainWindow;
+    QSettings *settings;
 };
 
 #endif // AUTHWINDOW_H
