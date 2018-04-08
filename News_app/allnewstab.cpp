@@ -6,6 +6,8 @@
 #include <QJsonValue>
 #include <QXmlStreamReader>
 #include <QXmlStreamAttribute>
+#include <QLabel>
+#include <QPushButton>
 
 
 AllNewsTab::AllNewsTab(QWidget *parent) :
@@ -44,7 +46,8 @@ QWidget * AllNewsTab::getCurrentItemWidget()
 
 QWidget *AllNewsTab::getCurrentW2()
 {
-    return &(*allNews)[1];
+    itemWidget = &(allNews->first());
+    return itemWidget;
 }
 
 void AllNewsTab::accessJson()
@@ -62,8 +65,7 @@ void AllNewsTab::getNewsFromJson(QNetworkReply* reply)
     QJsonDocument doc = QJsonDocument::fromJson(res.toUtf8());
     QJsonObject root = doc.object();
     QJsonObject documents = root["documents"].toObject();
-    QStringList	allKeys = documents.keys();
-    QList<NewsItem> news = QList<NewsItem>();
+    const QStringList	allKeys = documents.keys();
     foreach(QString str, allKeys){
         QJsonObject post = documents[str].toObject();
         NewsItem newItem = NewsItem();
@@ -71,39 +73,56 @@ void AllNewsTab::getNewsFromJson(QNetworkReply* reply)
         QString t2 = post["title"].toString();
         newItem.setName(post["url"].toString());
         newItem.setText(post["title"].toString());
-        news.append(newItem);
+        allNews->append(newItem);
     }
-
-    allNews->append(news);
-
     onFinishJsonParse();
 
 }
 
-QList<NewsItem> AllNewsTab::getNewsFromXML(QString xmlt)
+void AllNewsTab::getNewsFromXML()
 {
-
-
-
+    onFinishXMLParse();
 }
 
 
 void AllNewsTab::onFinishJsonParse()
 {
-    QList<QListWidgetItem> widgetItems = QList<QListWidgetItem>();
-    for(int i = 0; i < allNews->size(); i++){
-        widgetItems.append((*(new QListWidgetItem(ui->newsListWidget))));
-    }
-    int i = 0;
+    getNewsFromXML();
+}
+
+void AllNewsTab::onFinishXMLParse()
+{
     foreach (NewsItem newsitem, (*allNews)) {
-        addItemToList((&widgetItems[i]), (&newsitem));
+//        QListWidgetItem itemWidget = QListWidgetItem(ui->newsListWidget);
+//        itemWidget.setText(newsitem.getText());
+        QListWidgetItem * widgetItem = new QListWidgetItem;
+        addItemToList(widgetItem, &newsitem);
     }
 
 }
 
 void AllNewsTab::addItemToList(QListWidgetItem *item, NewsItem* news)
 {
-    ui->newsListWidget->addItem(item);
+
     item->setSizeHint(QSize(0, 100));
-    ui->newsListWidget->setItemWidget(item, news);
+    ui->newsListWidget->addItem(item);
+    ui->newsListWidget->setItemWidget(item, transformToWidget(news));
+}
+
+QWidget *AllNewsTab::transformToWidget(NewsItem * news)
+{
+    QWidget* w = new QWidget();
+
+    QVBoxLayout* vbl = new QVBoxLayout(w);
+    QLabel * lab_01 = new QLabel(news->getName());
+    QLabel * lab_02 = new QLabel(news->getText());
+    QPushButton* pb = new QPushButton("button");
+
+    vbl->addWidget(lab_01);
+    vbl->addWidget(lab_02);
+    vbl->addWidget(pb);
+    vbl->setSizeConstraint( QLayout::SetFixedSize );
+    w->setLayout(vbl);
+
+    return w;
 }
