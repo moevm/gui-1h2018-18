@@ -23,11 +23,13 @@ void SettingsTab::on_logoutButton_clicked()
 void SettingsTab::on_meduzaCheckBox_stateChanged(int arg1)
 {
     meduzaChecked = arg1;
+    emit changeList();
 }
 
 void SettingsTab::on_lentaCheckBox_stateChanged(int arg1)
 {
     lentaChecked = arg1;
+    emit changeList();
 }
 
 int SettingsTab::getLentaChecked() const

@@ -20,7 +20,7 @@ AllNewsTab::AllNewsTab(QWidget *parent) :
     ui->setupUi(this);
 
     allNews = new QList<NewsItem>();
-    loadNews();
+    loadNewsFromMeduza();
 }
 
 AllNewsTab::~AllNewsTab()
@@ -91,17 +91,32 @@ QWidget *AllNewsTab::transformToWidget(NewsItem * news)
     return w;
 }
 
-void AllNewsTab::loadNews()
+void AllNewsTab::loadNewsFromLenta()
 {
-
     QNetworkAccessManager* networkManager = new QNetworkAccessManager(this);
 
-//    QUrl url(BASE_LENTA_URL);
+    QUrl url(BASE_LENTA_URL);
+    QNetworkRequest request(url);
+
+    QNetworkReply* currentReply = networkManager->get(request);
+    connect(networkManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(getParsedNews(QNetworkReply*)));
+}
+
+void AllNewsTab::loadNewsFromMeduza()
+{
+    QNetworkAccessManager* networkManager = new QNetworkAccessManager(this);
+
     QUrl url(BASE_MEDUZA_URL);
     QNetworkRequest request(url);
 
     QNetworkReply* currentReply = networkManager->get(request);
     connect(networkManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(getParsedNews(QNetworkReply*)));
+}
+
+void AllNewsTab::clearList()
+{
+    allNews->clear();
+    ui->newsListWidget->clear();
 }
 
 void AllNewsTab::downloadImage(QUrl url)

@@ -18,6 +18,7 @@ public:
 private slots:
     void nextPage();
     void prevoiusPage();
+    void updateNewsTab();
 
 private:
     Ui::MainWindow *ui;

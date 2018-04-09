@@ -30,7 +30,9 @@ public:
     void addItemToList(QListWidgetItem* item, NewsItem* news);
     void onFinishXMLParse();
     QWidget * transformToWidget(NewsItem *);
-    void loadNews();
+    void loadNewsFromLenta();
+    void loadNewsFromMeduza();
+    void clearList();
 
 private:
     Ui::AllNewsTab *ui;

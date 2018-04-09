@@ -31,6 +31,7 @@ private slots:
 
 signals:
     void hideMainWindow();
+    void changeList();
 
 private:
     Ui::SettingsTab *ui;

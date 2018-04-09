@@ -12,6 +12,7 @@ MainWindow::MainWindow(QWidget *parent) :
 //    QObject::connect(newsItem2, SIGNAL(readNews()), this, SLOT(nextPage()));
     QObject::connect(ui->page_2, SIGNAL(closeNews()), this, SLOT(prevoiusPage()));
     QObject::connect(ui->settingsTab, SIGNAL(hideMainWindow()), this, SLOT(hide()));
+    QObject::connect(ui->settingsTab, SIGNAL(changeList()), this, SLOT(updateNewsTab()));
 }
 
 MainWindow::~MainWindow()
@@ -27,4 +28,17 @@ void MainWindow::nextPage()
 void MainWindow::prevoiusPage()
 {
     ui->stackedWidget->setCurrentIndex(0);
+}
+
+void MainWindow::updateNewsTab()
+{
+    ui->allNewsTab->clearList();
+    int meduza = ui->settingsTab->getMeduzaChecked();
+    int lenta = ui->settingsTab->getLentaChecked();
+    if (meduza == Qt::Checked) {
+        ui->allNewsTab->loadNewsFromMeduza();
+    }
+    if (lenta == Qt::Checked) {
+        ui->allNewsTab->loadNewsFromLenta();
+    }
 }
