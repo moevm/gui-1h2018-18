@@ -53,12 +53,12 @@ void AllNewsTab::getParsedNews(QNetworkReply *reply)
     XmlNewsReader *reader = new XmlNewsReader(reply->readAll());
     reader->read();
     foreach(ParsedNews parsedItem, reader->getParsedNewsList()) {
-        tempImage = QImage(64, 64, QImage::Format_RGB888);
+//        tempPixmap = QImage(64, 64, QImage::Format_RGB888);
         NewsItem * newsItem = new NewsItem ();
         newsItem->setName(parsedItem.getTitle());
         newsItem->setText(parsedItem.getDescription());
         downloadImage(parsedItem.getImageLink());
-        newsItem->setImg(tempImage);
+        newsItem->setImg(new QPixmap(tempPixmap));
         newsItem->setLink(parsedItem.getLink());
         allNews->append(*newsItem);
     }
@@ -131,7 +131,7 @@ void AllNewsTab::convertReplyToImage(QNetworkReply* reply)
 {
     if (reply->error() != QNetworkReply::NoError)
             return;
-    tempImage = QImage::fromData(reply->readAll());
+    tempPixmap.loadFromData(reply->readAll(), "jpeg");
 }
 
 void AllNewsTab::readNews(QUrl link)

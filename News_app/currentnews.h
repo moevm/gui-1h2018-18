@@ -2,6 +2,7 @@
 #define CURRENTNEWS_H
 
 #include <QWidget>
+
 namespace Ui {
 class CurrentNews;
 }

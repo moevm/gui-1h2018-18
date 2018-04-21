@@ -24,7 +24,7 @@ void AuthWindow::on_signInButton_clicked()
     QString pwd = ui->passwordInput->text();
     if (settings->value("/users/" + login) == pwd) {
         hide();
-        mainWindow = new MainWindow(this);
+        mainWindow = new MainWindow(this, login);
         mainWindow->show();
     }
     else {
@@ -57,7 +57,7 @@ void AuthWindow::on_signUpButton_clicked()
             settings->setValue("/users/" + login, pwd);
             QMessageBox::information(this, "Registration result", "User with login " + login + " successfully registered!");
             hide();
-            mainWindow = new MainWindow(this);
+            mainWindow = new MainWindow(this, login);
             mainWindow->show();
         }
     }

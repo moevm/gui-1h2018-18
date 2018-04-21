@@ -38,7 +38,7 @@ private:
     Ui::AllNewsTab *ui;
     NewsItem *itemWidget;
     QList<NewsItem> *allNews;
-    QImage tempImage;
+    QPixmap tempPixmap;
     void downloadImage(QUrl url);
 
 signals:

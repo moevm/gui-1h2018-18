@@ -23,11 +23,12 @@ public:
     QString getText();
     ~NewsItem();
 
-    QImage getImg() const;
-    void setImg(const QImage &value);
-
     QUrl getLink() const;
     void setLink(const QUrl &value);
+
+
+    QPixmap *getImg() const;
+    void setImg(QPixmap *value);
 
 private slots:
     void on_readButton_clicked();
@@ -39,7 +40,7 @@ private:
     QString text;
     QString name;
     QUrl link;
-    QImage img;
+    QPixmap *img;
 };
 
 #endif // NEWSITEM_H

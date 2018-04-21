@@ -1,7 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-MainWindow::MainWindow(QWidget *parent) :
+MainWindow::MainWindow(QWidget *parent, QString userLogin) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
@@ -13,6 +13,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QObject::connect(ui->page_2, SIGNAL(closeNews()), this, SLOT(prevoiusPage()));
     QObject::connect(ui->settingsTab, SIGNAL(hideMainWindow()), this, SLOT(hide()));
     QObject::connect(ui->settingsTab, SIGNAL(changeList()), this, SLOT(updateNewsTab()));
+    ui->settingsTab->setUser(userLogin);
 }
 
 MainWindow::~MainWindow()

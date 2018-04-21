@@ -22,12 +22,16 @@ public:
     int getLentaChecked() const;
     void setLentaChecked(int value);
 
+    void setUser(const QString &value);
+
 private slots:
     void on_logoutButton_clicked();
 
     void on_meduzaCheckBox_stateChanged(int arg1);
 
     void on_lentaCheckBox_stateChanged(int arg1);
+
+    void on_pushButton_clicked();
 
 signals:
     void hideMainWindow();
@@ -38,6 +42,8 @@ private:
     AuthWindow *authWindow;
     int meduzaChecked;
     int lentaChecked;
+    QString user;
+    QSettings *settings;
 };
 
 #endif // SETTINGSTAB_H

@@ -70,6 +70,17 @@ void NewsItem::on_readButton_clicked()
     emit readItemNews(this->link);
 }
 
+QPixmap *NewsItem::getImg() const
+{
+    return img;
+}
+
+void NewsItem::setImg(QPixmap *value)
+{
+    img = value;
+    ui->label->setPixmap(*img);
+}
+
 QUrl NewsItem::getLink() const
 {
     return link;
@@ -78,16 +89,4 @@ QUrl NewsItem::getLink() const
 void NewsItem::setLink(const QUrl &value)
 {
     link = value;
-}
-
-QImage NewsItem::getImg() const
-{
-    return img;
-}
-
-void NewsItem::setImg(const QImage &value)
-{
-    img = value;
-    QPixmap scaled=QPixmap::fromImage(img, Qt::AutoColor).scaled (64, 64, Qt::IgnoreAspectRatio, Qt::FastTransformation );
-    ui->label->setPixmap(scaled);
 }
