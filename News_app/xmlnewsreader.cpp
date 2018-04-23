@@ -41,13 +41,13 @@ void XmlNewsReader::processNews()
 
         QString title;
         QString description;
-        QUrl link;
-        QUrl imageLink;
+        QString link;
+        QString imageLink;
         while (xml.readNextStartElement()) {
             if (xml.name() == "title")
                 title = readNextText();
             else if (xml.name() == "guid")
-                link = QUrl(readNextText());
+                link = QString(readNextText());
             else if (xml.name() == "description")
                 description = readNextText();
             else if (xml.name() == "enclosure")

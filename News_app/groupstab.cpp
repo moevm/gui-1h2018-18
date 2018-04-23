@@ -8,7 +8,7 @@ GroupsTab::GroupsTab(QWidget *parent) :
 {
     ui->setupUi(this);
     settings = new QSettings();
-    allNews = new QList<NewsItem>();
+    allNews = new QList<FavoriteItem>();
 }
 
 GroupsTab::~GroupsTab()
@@ -30,7 +30,7 @@ void GroupsTab::updateList()
 
 void GroupsTab::createNewsList()
 {
-    foreach (NewsItem newsitem, (*allNews)) {
+    foreach (FavoriteItem newsitem, (*allNews)) {
         QListWidgetItem * widgetItem = new QListWidgetItem;
         addItemToList(widgetItem, &newsitem);
     }
@@ -42,26 +42,27 @@ void GroupsTab::loadFromSettings()
     for (int i = 0; i<index; i++) {
         QString text = settings->value("/fav/" + user + "/" + QString::number(i) + "/text").toString();
         QString name = settings->value("/fav/" + user + "/" + QString::number(i) + "/name").toString();
-        QUrl link = settings->value("/fav/" + user + "/" + QString::number(i) + "/link").toString();
-        NewsItem* news = new NewsItem();
+        QString link = settings->value("/fav/" + user + "/" + QString::number(i) + "/link").toString();
+        FavoriteItem* news = new FavoriteItem();
         news->setText(text);
         news->setName(name);
         news->setLink(link);
+
         allNews->append(*news);
     }
     createNewsList();
 }
 
-void GroupsTab::addItemToList(QListWidgetItem *item, NewsItem* news)
+void GroupsTab::addItemToList(QListWidgetItem *item, FavoriteItem *news)
 {
     item->setSizeHint(QSize(0, 100));
     ui->listWidget->addItem(item);
     ui->listWidget->setItemWidget(item, transformToWidget(news));
 }
 
-QWidget *GroupsTab::transformToWidget(NewsItem * news)
+QWidget *GroupsTab::transformToWidget(FavoriteItem *news)
 {
-    NewsItem *w = new NewsItem();
+    FavoriteItem *w = new FavoriteItem();
     w->setText(news->getText());
     w->setName(news->getName());
     w->setLink(news->getLink());

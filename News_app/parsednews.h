@@ -1,18 +1,18 @@
 #ifndef PARSEDNEWS_H
 #define PARSEDNEWS_H
 
-#include <QUrl>
+#include <QString>
 
 class ParsedNews
 {
 public:
     ParsedNews();
-    ParsedNews(QUrl link, QUrl imageLink, QString title, QString description);
-    QUrl getLink() const;
-    void setLink(const QUrl &value);
+    ParsedNews(QString link, QString imageLink, QString title, QString description);
+    QString getLink() const;
+    void setLink(const QString &value);
 
-    QUrl getImageLink() const;
-    void setImageLink(const QUrl &value);
+    QString getImageLink() const;
+    void setImageLink(const QString &value);
 
     QString getTitle() const;
     void setTitle(const QString &value);
@@ -21,8 +21,8 @@ public:
     void setDescription(const QString &value);
 
 private:
-    QUrl link;
-    QUrl imageLink;
+    QString link;
+    QString imageLink;
     QString title;
     QString description;
 };

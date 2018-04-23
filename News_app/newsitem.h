@@ -2,7 +2,7 @@
 #define NEWSITEM_H
 
 #include <QWidget>
-#include <QUrl>
+#include <QString>
 #include <QDataStream>
 namespace Ui {
 class NewsItem;
@@ -23,18 +23,10 @@ public:
     QString getText();
     ~NewsItem();
 
-    QUrl getLink() const;
-    void setLink(const QUrl &value);
-
-
+    QString getLink() const;
+    void setLink(const QString &value);
     QPixmap *getImg() const;
     void setImg(QPixmap *value);
-    Ui::NewsItem *ui;
-    QString text;
-    QString name;
-    QUrl link;
-    QPixmap *img;
-
 
 private slots:
     void on_readButton_clicked();
@@ -42,15 +34,15 @@ private slots:
     void on_addToFavButton_clicked();
 
 signals:
-    void readItemNews(QUrl newsLink);
+    void readItemNews(QString newsLink);
     void addItemToFavorite(NewsItem newsItem);
 private:
+    Ui::NewsItem *ui;
+    QString text;
+    QString name;
+    QString link;
+    QPixmap *img;
+
 
 };
-
-QDataStream& operator<<(QDataStream& out, const NewsItem& v);
-QDataStream& operator>>(QDataStream& in, NewsItem& v);
-
-Q_DECLARE_METATYPE(NewsItem)
-
 #endif // NEWSITEM_H

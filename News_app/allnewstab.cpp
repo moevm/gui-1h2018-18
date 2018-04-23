@@ -57,7 +57,7 @@ void AllNewsTab::getParsedNews(QNetworkReply *reply)
         NewsItem * newsItem = new NewsItem ();
         newsItem->setName(parsedItem.getTitle());
         newsItem->setText(parsedItem.getDescription());
-        downloadImage(parsedItem.getImageLink());
+//        downloadImage(parsedItem.getImageLink());
         newsItem->setImg(new QPixmap(tempPixmap));
         newsItem->setLink(parsedItem.getLink());
         allNews->append(*newsItem);
@@ -87,7 +87,7 @@ QWidget *AllNewsTab::transformToWidget(NewsItem * news)
     w->setName(news->getName());
 //    w->setImg(news->getImg());
     w->setLink(news->getLink());
-    connect(w, SIGNAL(readItemNews(QUrl)), this, SLOT(readNews(QUrl)));
+    connect(w, SIGNAL(readItemNews(QString)), this, SLOT(readNews(QString)));
     connect(w, SIGNAL(addItemToFavorite(NewsItem)), this, SLOT(addFavoriteNews(NewsItem)));
     return w;
 }
@@ -96,7 +96,7 @@ void AllNewsTab::loadNewsFromLenta()
 {
     QNetworkAccessManager* networkManager = new QNetworkAccessManager(this);
 
-    QUrl url(BASE_LENTA_URL);
+    QString url(BASE_LENTA_URL);
     QNetworkRequest request(url);
 
     QNetworkReply* currentReply = networkManager->get(request);
@@ -107,7 +107,7 @@ void AllNewsTab::loadNewsFromMeduza()
 {
     QNetworkAccessManager* networkManager = new QNetworkAccessManager(this);
 
-    QUrl url(BASE_MEDUZA_URL);
+    QString url(BASE_MEDUZA_URL);
     QNetworkRequest request(url);
 
     QNetworkReply* currentReply = networkManager->get(request);
@@ -125,19 +125,16 @@ void AllNewsTab::setUser(const QString &value)
     user = value;
 }
 
-void AllNewsTab::downloadImage(QUrl url)
+void AllNewsTab::downloadImage(QString url)
 {
-    QNetworkAccessManager* networkManager = new QNetworkAccessManager(this);
-    QNetworkRequest request(url);
-    QNetworkReply* currentReply = networkManager->get(request);
-    connect(networkManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(convertReplyToImage(QNetworkReply*)));
+//    QNetworkAccessManager* networkManager = new QNetworkAccessManager(this);
+//    QNetworkRequest request(url);
+//    QNetworkReply* currentReply = networkManager->get(request);
+//    connect(networkManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(convertReplyToImage(QNetworkReply*)));
 }
 
 void AllNewsTab::addFavoriteNews(NewsItem news)
 {
-//     qRegisterMetaTypeStreamOperators<NewsItem>("NewsItem");
-//     NewsItem test = allNews->constFirst();
-//     settings->setValue("/fav/" + user, QVariant::fromValue(test));
     if (settings->value("/fav/" + user + "/count").isNull()){
         settings->setValue("/fav/" + user + "/count", 0);
     }
@@ -156,7 +153,7 @@ void AllNewsTab::convertReplyToImage(QNetworkReply* reply)
     tempPixmap.loadFromData(reply->readAll(), "jpeg");
 }
 
-void AllNewsTab::readNews(QUrl link)
+void AllNewsTab::readNews(QString link)
 {
     emit readNewsSignal(link);
 }

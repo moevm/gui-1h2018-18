@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QListWidgetItem>
 #include "newsitem.h"
+#include "favoriteitem.h"
 #include <QList>
 #include <QSettings>
 
@@ -27,11 +28,11 @@ private:
     Ui::GroupsTab *ui;
     QSettings *settings;
     QString user;
-    void addItemToList(QListWidgetItem *item, NewsItem* news);
-    QWidget* transformToWidget(NewsItem * news);
+    void addItemToList(QListWidgetItem *item, FavoriteItem* news);
+    QWidget* transformToWidget(FavoriteItem * news);
     void createNewsList();
-    NewsItem *itemWidget;
-    QList<NewsItem> *allNews;
+    FavoriteItem *itemWidget;
+    QList<FavoriteItem> *allNews;
 };
 
 #endif // GROUPSTAB_H

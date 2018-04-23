@@ -1,6 +1,6 @@
 #include "parsednews.h"
 
-ParsedNews::ParsedNews(QUrl link, QUrl imageLink, QString title, QString description)
+ParsedNews::ParsedNews(QString link, QString imageLink, QString title, QString description)
 {
     this->link = link;
     this->imageLink = imageLink;
@@ -8,22 +8,22 @@ ParsedNews::ParsedNews(QUrl link, QUrl imageLink, QString title, QString descrip
     this->description = description;
 }
 
-QUrl ParsedNews::getLink() const
+QString ParsedNews::getLink() const
 {
     return link;
 }
 
-void ParsedNews::setLink(const QUrl &value)
+void ParsedNews::setLink(const QString &value)
 {
     link = value;
 }
 
-QUrl ParsedNews::getImageLink() const
+QString ParsedNews::getImageLink() const
 {
     return imageLink;
 }
 
-void ParsedNews::setImageLink(const QUrl &value)
+void ParsedNews::setImageLink(const QString &value)
 {
     imageLink = value;
 }

@@ -8,7 +8,7 @@ MainWindow::MainWindow(QWidget *parent, QString userLogin) :
     ui->setupUi(this);
 //    QWidget *newsItem = ui->allNewsTab->getCurrentItemWidget();
 //    QWidget *newsItem2 = ui->allNewsTab->getCurrentW2();
-    QObject::connect(ui->allNewsTab, SIGNAL(readNewsSignal(QUrl)), this, SLOT(nextPage()));
+    QObject::connect(ui->allNewsTab, SIGNAL(readNewsSignal(QString)), this, SLOT(nextPage()));
 //    QObject::connect(newsItem2, SIGNAL(readNews()), this, SLOT(nextPage()));
     QObject::connect(ui->page_2, SIGNAL(closeNews()), this, SLOT(prevoiusPage()));
     QObject::connect(ui->settingsTab, SIGNAL(hideMainWindow()), this, SLOT(hide()));

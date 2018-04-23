@@ -19,7 +19,7 @@ class AllNewsTab : public QWidget
 private slots:
     void getParsedNews(QNetworkReply* reply);
     void convertReplyToImage(QNetworkReply *reply);
-    void readNews (QUrl link);
+    void readNews (QString link);
     void addFavoriteNews(NewsItem news);
 
 public:
@@ -44,10 +44,10 @@ private:
     QPixmap tempPixmap;
     QString user;
     QSettings *settings;
-    void downloadImage(QUrl url);
+    void downloadImage(QString url);
 
 signals:
-    void readNewsSignal(QUrl link);
+    void readNewsSignal(QString link);
     void updateFavorites();
 
 };

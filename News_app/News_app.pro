@@ -33,7 +33,8 @@ SOURCES += \
     authwindow.cpp \
     newsitem.cpp \
     xmlnewsreader.cpp \
-    parsednews.cpp
+    parsednews.cpp \
+    favoriteitem.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -44,7 +45,8 @@ HEADERS += \
     authwindow.h \
     newsitem.h \
     xmlnewsreader.h \
-    parsednews.h
+    parsednews.h \
+    favoriteitem.h
 
 FORMS += \
         mainwindow.ui \
@@ -53,4 +55,5 @@ FORMS += \
     settingstab.ui \
     currentnews.ui \
     authwindow.ui \
-    newsitem.ui
+    newsitem.ui \
+    favoriteitem.ui
