@@ -28,6 +28,7 @@ NewsItem::NewsItem(const NewsItem & other, QWidget *parent):
     this->text = other.text;
     ui->newsTitle->setText(this->name);
     ui->textBrowser->setText(this->text);
+    ui->addToFavButton->setText("Remove");
 }
 
 NewsItem NewsItem::operator=(const NewsItem &other) const
@@ -89,4 +90,22 @@ QUrl NewsItem::getLink() const
 void NewsItem::setLink(const QUrl &value)
 {
     link = value;
+}
+
+QDataStream& operator<<(QDataStream& out, const NewsItem& v) {
+    out << v.name << v.text << v.link;
+    return out;
+}
+
+QDataStream& operator>>(QDataStream& in, NewsItem& v) {
+    in >> v.name;
+    in >> v.text;
+    in >> v.link;
+    return in;
+}
+
+
+void NewsItem::on_addToFavButton_clicked()
+{
+    emit addItemToFavorite(*this);
 }

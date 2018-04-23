@@ -20,6 +20,7 @@ private slots:
     void getParsedNews(QNetworkReply* reply);
     void convertReplyToImage(QNetworkReply *reply);
     void readNews (QUrl link);
+    void addFavoriteNews(NewsItem news);
 
 public:
     explicit AllNewsTab(QWidget *parent = 0);
@@ -34,15 +35,20 @@ public:
     void loadNewsFromMeduza();
     void clearList();
 
+    void setUser(const QString &value);
+
 private:
     Ui::AllNewsTab *ui;
     NewsItem *itemWidget;
     QList<NewsItem> *allNews;
     QPixmap tempPixmap;
+    QString user;
+    QSettings *settings;
     void downloadImage(QUrl url);
 
 signals:
     void readNewsSignal(QUrl link);
+    void updateFavorites();
 
 };
 

@@ -20,7 +20,6 @@ void XmlNewsReader::read()
 
     if (xml.hasError()) {
          xml.raiseError();
-//         qDebug() << errorString();
     }
 
 }
@@ -48,7 +47,7 @@ void XmlNewsReader::processNews()
             if (xml.name() == "title")
                 title = readNextText();
             else if (xml.name() == "guid")
-                link = readNextText();
+                link = QUrl(readNextText());
             else if (xml.name() == "description")
                 description = readNextText();
             else if (xml.name() == "enclosure")

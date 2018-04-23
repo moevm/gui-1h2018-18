@@ -3,7 +3,7 @@
 
 #include <QWidget>
 #include <QUrl>
-
+#include <QDataStream>
 namespace Ui {
 class NewsItem;
 }
@@ -29,18 +29,28 @@ public:
 
     QPixmap *getImg() const;
     void setImg(QPixmap *value);
-
-private slots:
-    void on_readButton_clicked();
-
-signals:
-    void readItemNews(QUrl newsLink);
-private:
     Ui::NewsItem *ui;
     QString text;
     QString name;
     QUrl link;
     QPixmap *img;
+
+
+private slots:
+    void on_readButton_clicked();
+
+    void on_addToFavButton_clicked();
+
+signals:
+    void readItemNews(QUrl newsLink);
+    void addItemToFavorite(NewsItem newsItem);
+private:
+
 };
+
+QDataStream& operator<<(QDataStream& out, const NewsItem& v);
+QDataStream& operator>>(QDataStream& in, NewsItem& v);
+
+Q_DECLARE_METATYPE(NewsItem)
 
 #endif // NEWSITEM_H

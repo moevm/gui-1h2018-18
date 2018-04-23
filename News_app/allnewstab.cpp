@@ -18,7 +18,7 @@ AllNewsTab::AllNewsTab(QWidget *parent) :
     ui(new Ui::AllNewsTab)
 {
     ui->setupUi(this);
-
+    settings = new QSettings();
     allNews = new QList<NewsItem>();
     loadNewsFromMeduza();
 }
@@ -85,9 +85,10 @@ QWidget *AllNewsTab::transformToWidget(NewsItem * news)
     NewsItem *w = new NewsItem();
     w->setText(news->getText());
     w->setName(news->getName());
-    w->setImg(news->getImg());
+//    w->setImg(news->getImg());
     w->setLink(news->getLink());
     connect(w, SIGNAL(readItemNews(QUrl)), this, SLOT(readNews(QUrl)));
+    connect(w, SIGNAL(addItemToFavorite(NewsItem)), this, SLOT(addFavoriteNews(NewsItem)));
     return w;
 }
 
@@ -119,12 +120,33 @@ void AllNewsTab::clearList()
     ui->newsListWidget->clear();
 }
 
+void AllNewsTab::setUser(const QString &value)
+{
+    user = value;
+}
+
 void AllNewsTab::downloadImage(QUrl url)
 {
     QNetworkAccessManager* networkManager = new QNetworkAccessManager(this);
     QNetworkRequest request(url);
     QNetworkReply* currentReply = networkManager->get(request);
     connect(networkManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(convertReplyToImage(QNetworkReply*)));
+}
+
+void AllNewsTab::addFavoriteNews(NewsItem news)
+{
+//     qRegisterMetaTypeStreamOperators<NewsItem>("NewsItem");
+//     NewsItem test = allNews->constFirst();
+//     settings->setValue("/fav/" + user, QVariant::fromValue(test));
+    if (settings->value("/fav/" + user + "/count").isNull()){
+        settings->setValue("/fav/" + user + "/count", 0);
+    }
+    int index = settings->value("/fav/" + user + "/count").toInt();
+    settings->setValue("/fav/" + user + "/" + QString::number(index) + "/text", news.getText());
+    settings->setValue("/fav/" + user + "/" + QString::number(index) + "/name", news.getName());
+    settings->setValue("/fav/" + user + "/" + QString::number(index) + "/link", news.getLink());
+    settings->setValue("/fav/" + user + "/count", ++index);
+    emit updateFavorites();
 }
 
 void AllNewsTab::convertReplyToImage(QNetworkReply* reply)

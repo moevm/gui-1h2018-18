@@ -19,6 +19,7 @@ private slots:
     void nextPage();
     void prevoiusPage();
     void updateNewsTab();
+    void updateGroupsTab();
 
 private:
     Ui::MainWindow *ui;
