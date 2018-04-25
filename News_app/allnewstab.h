@@ -16,11 +16,7 @@ class AllNewsTab : public QWidget
 {
     Q_OBJECT
 
-private slots:
-    void getParsedNews(QNetworkReply* reply);
-    void convertReplyToImage(QNetworkReply *reply);
-    void readNews (QString link);
-    void addFavoriteNews(NewsItem news);
+
 
 public:
     explicit AllNewsTab(QWidget *parent = 0);
@@ -34,7 +30,6 @@ public:
     void loadNewsFromLenta();
     void loadNewsFromMeduza();
     void clearList();
-
     void setUser(const QString &value);
 
 private:
@@ -45,6 +40,12 @@ private:
     QString user;
     QSettings *settings;
     void downloadImage(QString url);
+
+private slots:
+    void getParsedNews(QNetworkReply* reply);
+    void convertReplyToImage(QNetworkReply *reply);
+    void readNews (QString link);
+    void addFavoriteNews(NewsItem news);
 
 signals:
     void readNewsSignal(QString link);

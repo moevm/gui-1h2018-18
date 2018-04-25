@@ -8,13 +8,15 @@ FavoriteItem::FavoriteItem(QWidget *parent) :
     ui->setupUi(this);
 }
 
-FavoriteItem::FavoriteItem(QString name, QString text, QWidget *parent):
+FavoriteItem::FavoriteItem(QString name, QString text, QString link, QString settingsLink, QWidget *parent):
     QWidget(parent),
     ui(new Ui::FavoriteItem)
 {
     ui->setupUi(this);
     this->name = name;
     this->text = text;
+    this->link = link;
+    this->settngsLink = settingsLink;
     ui->newsTitle->setText(this->name);
     ui->textBrowser->setText(this->text);
 }
@@ -26,13 +28,15 @@ FavoriteItem::FavoriteItem(const FavoriteItem & other, QWidget *parent):
     ui->setupUi(this);
     this->name = other.name;
     this->text = other.text;
+    this->link = other.link;
+    this->settngsLink = other.settngsLink;
     ui->newsTitle->setText(this->name);
     ui->textBrowser->setText(this->text);
 }
 
 FavoriteItem FavoriteItem::operator=(const FavoriteItem &other) const
 {
-    FavoriteItem* newNews = new FavoriteItem(other.name, other.text);
+    FavoriteItem* newNews = new FavoriteItem(other.name, other.text, other.link, other.settngsLink);
     return (* newNews);
 }
 
@@ -71,4 +75,20 @@ QString FavoriteItem::getLink() const
 void FavoriteItem::setLink(const QString &value)
 {
     link = value;
+}
+
+QString FavoriteItem::getSettingsLink()
+{
+    return settngsLink;
+}
+
+void FavoriteItem::setSettingsLink(QString settingsLink)
+{
+    this->settngsLink = settingsLink;
+}
+
+void FavoriteItem::on_addToFavButton_clicked()
+{
+    QString settingsL = settngsLink;
+    emit reoveItemFromFavorite(*this);
 }

@@ -14,13 +14,16 @@ class NewsItem : public QWidget
 
 public:
     explicit NewsItem(QWidget *parent = 0);
-    explicit NewsItem(QString name, QString text, QWidget *parent = 0);
+    explicit NewsItem(QString name, QString text, QString link, QString settingsLink, QWidget *parent = 0);
     NewsItem(const NewsItem&, QWidget *parent = 0);
     NewsItem operator=(const NewsItem& other) const;
     void setName(QString);
     void setText(QString);
     QString getName();
     QString getText();
+    QString getLink();
+    QString getSettingsLink();
+    void setSettingsLink(QString settingsLink);
     ~NewsItem();
 
     QString getLink() const;
@@ -30,7 +33,6 @@ public:
 
 private slots:
     void on_readButton_clicked();
-
     void on_addToFavButton_clicked();
 
 signals:
@@ -41,6 +43,7 @@ private:
     QString text;
     QString name;
     QString link;
+    QString settngsLink;
     QPixmap *img;
 
 

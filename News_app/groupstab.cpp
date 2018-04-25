@@ -36,17 +36,30 @@ void GroupsTab::createNewsList()
     }
 }
 
+void GroupsTab::removeFromFavorite(FavoriteItem news)
+{
+    settings->remove(news.getSettingsLink());
+    updateList();
+}
+
 void GroupsTab::loadFromSettings()
 {
-    int index = settings->value("/fav/" + user + "/count").toInt();
-    for (int i = 0; i<index; i++) {
-        QString text = settings->value("/fav/" + user + "/" + QString::number(i) + "/text").toString();
-        QString name = settings->value("/fav/" + user + "/" + QString::number(i) + "/name").toString();
-        QString link = settings->value("/fav/" + user + "/" + QString::number(i) + "/link").toString();
+    QStringList list = settings->allKeys();
+    QStringList indexesForUser = QStringList();
+    foreach (QString key, list) {
+        if(key.contains("fav/"+ user) && key.endsWith("text")){
+            indexesForUser << key.left(key.lastIndexOf(QChar('/')));
+        }
+    }
+    foreach (QString key, indexesForUser){
+        QString text = settings->value(key + "/text").toString();
+        QString name = settings->value(key + "/name").toString();
+        QString link = settings->value(key + "/link").toString();
         FavoriteItem* news = new FavoriteItem();
         news->setText(text);
         news->setName(name);
         news->setLink(link);
+        news->setSettingsLink(key);
 
         allNews->append(*news);
     }
@@ -66,6 +79,8 @@ QWidget *GroupsTab::transformToWidget(FavoriteItem *news)
     w->setText(news->getText());
     w->setName(news->getName());
     w->setLink(news->getLink());
+    w->setSettingsLink(news->getSettingsLink());
 //    connect(w, SIGNAL(readItemNews(QUrl)), this, SLOT(readNews(QUrl)));
+    connect(w, SIGNAL(reoveItemFromFavorite(FavoriteItem)), this, SLOT(removeFromFavorite(FavoriteItem)));
     return w;
 }

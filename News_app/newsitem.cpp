@@ -8,13 +8,15 @@ NewsItem::NewsItem(QWidget *parent) :
     ui->setupUi(this);
 }
 
-NewsItem::NewsItem(QString name, QString text, QWidget *parent):
+NewsItem::NewsItem(QString name, QString text, QString link, QString settingsLink, QWidget *parent):
     QWidget(parent),
     ui(new Ui::NewsItem)
 {
     ui->setupUi(this);
     this->name = name;
     this->text = text;
+    this->link = link;
+    this->settngsLink = settingsLink;
     ui->newsTitle->setText(this->name);
     ui->textBrowser->setText(this->text);
 }
@@ -26,13 +28,15 @@ NewsItem::NewsItem(const NewsItem & other, QWidget *parent):
     ui->setupUi(this);
     this->name = other.name;
     this->text = other.text;
+    this->link = other.link;
+    this->settngsLink = other.settngsLink;
     ui->newsTitle->setText(this->name);
     ui->textBrowser->setText(this->text);
 }
 
 NewsItem NewsItem::operator=(const NewsItem &other) const
 {
-    NewsItem* newNews = new NewsItem(other.name, other.text);
+    NewsItem* newNews = new NewsItem(other.name, other.text, other.link, other.settngsLink);
     return (* newNews);
 }
 
@@ -56,6 +60,21 @@ QString NewsItem::getName()
 QString NewsItem::getText()
 {
     return this->text;
+}
+
+QString NewsItem::getLink()
+{
+    return link;
+}
+
+QString NewsItem::getSettingsLink()
+{
+    return settngsLink;
+}
+
+void NewsItem::setSettingsLink(QString settingsLink)
+{
+    this->settngsLink = settingsLink;
 }
 
 NewsItem::~NewsItem()

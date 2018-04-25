@@ -135,15 +135,26 @@ void AllNewsTab::downloadImage(QString url)
 
 void AllNewsTab::addFavoriteNews(NewsItem news)
 {
-    if (settings->value("/fav/" + user + "/count").isNull()){
-        settings->setValue("/fav/" + user + "/count", 0);
-    }
-    int index = settings->value("/fav/" + user + "/count").toInt();
-    settings->setValue("/fav/" + user + "/" + QString::number(index) + "/text", news.getText());
-    settings->setValue("/fav/" + user + "/" + QString::number(index) + "/name", news.getName());
-    settings->setValue("/fav/" + user + "/" + QString::number(index) + "/link", news.getLink());
-    settings->setValue("/fav/" + user + "/count", ++index);
-    emit updateFavorites();
+    QStringList list = settings->allKeys();
+    QList<int> indexesForUser = QList<int>();
+        foreach (QString key, list) {
+            if(key.contains("fav/"+ user) && key.endsWith("text")){
+                QString withoutSuffix = key.left(key.lastIndexOf(QChar('/')));
+                QString withoutPrefix = withoutSuffix.right(withoutSuffix.indexOf(QChar('/')));
+                QString readyToUse = withoutPrefix.right(withoutPrefix.indexOf(QChar('/')));
+                indexesForUser << readyToUse.toInt();
+            }
+        }
+        int index = 0;
+        if(!indexesForUser.isEmpty()){
+            qSort(indexesForUser);
+            index = ++indexesForUser.last();
+        }
+        news.setSettingsLink("/fav/" + user + "/" + QString::number(index));
+        settings->setValue(news.getSettingsLink() + "/text", news.getText());
+        settings->setValue(news.getSettingsLink() + "/name", news.getName());
+        settings->setValue(news.getSettingsLink() + "/link", news.getLink());
+        emit updateFavorites();
 }
 
 void AllNewsTab::convertReplyToImage(QNetworkReply* reply)

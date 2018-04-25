@@ -19,7 +19,6 @@ class GroupsTab : public QWidget
 public:
     explicit GroupsTab(QWidget *parent = 0);
     ~GroupsTab();
-
     void setUser(const QString &value);
     void updateList();
     void loadFromSettings();
@@ -33,6 +32,9 @@ private:
     void createNewsList();
     FavoriteItem *itemWidget;
     QList<FavoriteItem> *allNews;
+
+private slots:
+    void removeFromFavorite(FavoriteItem news);
 };
 
 #endif // GROUPSTAB_H

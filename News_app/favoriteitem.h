@@ -13,7 +13,7 @@ class FavoriteItem : public QWidget
 
 public:
     explicit FavoriteItem(QWidget *parent = 0);
-    explicit FavoriteItem(QString name, QString text, QWidget *parent = 0);
+    explicit FavoriteItem(QString name, QString text, QString link, QString settingsLink, QWidget *parent = 0);
     FavoriteItem(const FavoriteItem&, QWidget *parent = 0);
     FavoriteItem operator=(const FavoriteItem& other) const;
     ~FavoriteItem();
@@ -27,11 +27,21 @@ public:
     QString getLink() const;
     void setLink(const QString &value);
 
+    QString getSettingsLink();
+    void setSettingsLink(QString settingsLink);
+
+private slots:
+    void on_addToFavButton_clicked();
+
+signals:
+    void reoveItemFromFavorite(FavoriteItem newsItem);
+
 private:
     Ui::FavoriteItem *ui;
     QString text;
     QString name;
     QString link;
+    QString settngsLink;
 };
 
 #endif // FAVORITEITEM_H
