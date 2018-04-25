@@ -89,6 +89,10 @@ void FavoriteItem::setSettingsLink(QString settingsLink)
 
 void FavoriteItem::on_addToFavButton_clicked()
 {
-    QString settingsL = settngsLink;
     emit reoveItemFromFavorite(*this);
+}
+
+void FavoriteItem::on_readButton_clicked()
+{
+    emit readItemNews(this->link);
 }

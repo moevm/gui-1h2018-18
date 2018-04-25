@@ -8,6 +8,7 @@
 #include <QXmlStreamAttribute>
 #include <QLabel>
 #include <QPushButton>
+#include <QDesktopServices>
 #include "xmlnewsreader.h"
 
 const QString BASE_MEDUZA_URL = "https://meduza.io/rss/all";
@@ -166,5 +167,5 @@ void AllNewsTab::convertReplyToImage(QNetworkReply* reply)
 
 void AllNewsTab::readNews(QString link)
 {
-    emit readNewsSignal(link);
+    QDesktopServices::openUrl(QUrl(link));
 }

@@ -1,6 +1,7 @@
 #include "groupstab.h"
 #include "ui_groupstab.h"
 #include <QVariant>
+#include <QDesktopServices>
 
 GroupsTab::GroupsTab(QWidget *parent) :
     QWidget(parent),
@@ -42,6 +43,11 @@ void GroupsTab::removeFromFavorite(FavoriteItem news)
     updateList();
 }
 
+void GroupsTab::readNews(QString link)
+{
+    QDesktopServices::openUrl(QUrl(link));
+}
+
 void GroupsTab::loadFromSettings()
 {
     QStringList list = settings->allKeys();
@@ -80,7 +86,7 @@ QWidget *GroupsTab::transformToWidget(FavoriteItem *news)
     w->setName(news->getName());
     w->setLink(news->getLink());
     w->setSettingsLink(news->getSettingsLink());
-//    connect(w, SIGNAL(readItemNews(QUrl)), this, SLOT(readNews(QUrl)));
+    connect(w, SIGNAL(readItemNews(QString)), this, SLOT(readNews(QString)));
     connect(w, SIGNAL(reoveItemFromFavorite(FavoriteItem)), this, SLOT(removeFromFavorite(FavoriteItem)));
     return w;
 }

@@ -32,8 +32,10 @@ public:
 
 private slots:
     void on_addToFavButton_clicked();
+    void on_readButton_clicked();
 
 signals:
+    void readItemNews(QString newsLink);
     void reoveItemFromFavorite(FavoriteItem newsItem);
 
 private:
