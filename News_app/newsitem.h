@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QString>
 #include <QDataStream>
+#include <QtNetwork>
 namespace Ui {
 class NewsItem;
 }
@@ -14,7 +15,7 @@ class NewsItem : public QWidget
 
 public:
     explicit NewsItem(QWidget *parent = 0);
-    explicit NewsItem(QString name, QString text, QString link, QString settingsLink, QWidget *parent = 0);
+    explicit NewsItem(QString name, QString text, QString link, QString settingsLink, QString img, QWidget *parent = 0);
     NewsItem(const NewsItem&, QWidget *parent = 0);
     NewsItem operator=(const NewsItem& other) const;
     void setName(QString);
@@ -28,12 +29,13 @@ public:
 
     QString getLink() const;
     void setLink(const QString &value);
-    QPixmap *getImg() const;
-    void setImg(QPixmap *value);
+    QString getImg() const;
+    void setImg(QString value);
 
 private slots:
     void on_readButton_clicked();
     void on_addToFavButton_clicked();
+    void setupImage(QNetworkReply *reply);
 
 signals:
     void readItemNews(QString newsLink);
@@ -44,7 +46,7 @@ private:
     QString name;
     QString link;
     QString settngsLink;
-    QPixmap *img;
+    QString img;
 
 
 };

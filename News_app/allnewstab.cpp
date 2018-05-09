@@ -54,12 +54,10 @@ void AllNewsTab::getParsedNews(QNetworkReply *reply)
     XmlNewsReader *reader = new XmlNewsReader(reply->readAll());
     reader->read();
     foreach(ParsedNews parsedItem, reader->getParsedNewsList()) {
-//        tempPixmap = QImage(64, 64, QImage::Format_RGB888);
         NewsItem * newsItem = new NewsItem ();
         newsItem->setName(parsedItem.getTitle());
         newsItem->setText(parsedItem.getDescription());
-//        downloadImage(parsedItem.getImageLink());
-        newsItem->setImg(new QPixmap(tempPixmap));
+        newsItem->setImg(parsedItem.getImageLink());
         newsItem->setLink(parsedItem.getLink());
         allNews->append(*newsItem);
     }
@@ -86,8 +84,18 @@ QWidget *AllNewsTab::transformToWidget(NewsItem * news)
     NewsItem *w = new NewsItem();
     w->setText(news->getText());
     w->setName(news->getName());
-//    w->setImg(news->getImg());
+    QString imageLink = news->getImg();
+    if(!imageLink.endsWith(".jpg") || !imageLink.endsWith(".jpeg")){
+        imageLink.insert(4, 's');
+    }
+    w->setImg(imageLink);
     w->setLink(news->getLink());
+    QNetworkAccessManager * m_netwManager = new QNetworkAccessManager(this);
+    connect(m_netwManager, SIGNAL(finished(QNetworkReply*)), w, SLOT(setupImage(QNetworkReply*)));
+    QUrl url(w->getImg());
+    QNetworkRequest request(url);
+    m_netwManager->get(request);
+
     connect(w, SIGNAL(readItemNews(QString)), this, SLOT(readNews(QString)));
     connect(w, SIGNAL(addItemToFavorite(NewsItem)), this, SLOT(addFavoriteNews(NewsItem)));
     return w;
@@ -128,10 +136,10 @@ void AllNewsTab::setUser(const QString &value)
 
 void AllNewsTab::downloadImage(QString url)
 {
-//    QNetworkAccessManager* networkManager = new QNetworkAccessManager(this);
-//    QNetworkRequest request(url);
-//    QNetworkReply* currentReply = networkManager->get(request);
-//    connect(networkManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(convertReplyToImage(QNetworkReply*)));
+    QNetworkAccessManager* networkManager = new QNetworkAccessManager(this);
+    QNetworkRequest request(url);
+    QNetworkReply* currentReply = networkManager->get(request);
+    connect(networkManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(convertReplyToImage(QNetworkReply*)));
 }
 
 void AllNewsTab::addFavoriteNews(NewsItem news)

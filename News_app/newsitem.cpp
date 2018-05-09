@@ -8,7 +8,7 @@ NewsItem::NewsItem(QWidget *parent) :
     ui->setupUi(this);
 }
 
-NewsItem::NewsItem(QString name, QString text, QString link, QString settingsLink, QWidget *parent):
+NewsItem::NewsItem(QString name, QString text, QString link, QString settingsLink, QString img, QWidget *parent):
     QWidget(parent),
     ui(new Ui::NewsItem)
 {
@@ -17,6 +17,7 @@ NewsItem::NewsItem(QString name, QString text, QString link, QString settingsLin
     this->text = text;
     this->link = link;
     this->settngsLink = settingsLink;
+    this->img = img;
     ui->newsTitle->setText(this->name);
     ui->textBrowser->setText(this->text);
 }
@@ -30,13 +31,14 @@ NewsItem::NewsItem(const NewsItem & other, QWidget *parent):
     this->text = other.text;
     this->link = other.link;
     this->settngsLink = other.settngsLink;
+    this->img = other.img;
     ui->newsTitle->setText(this->name);
     ui->textBrowser->setText(this->text);
 }
 
 NewsItem NewsItem::operator=(const NewsItem &other) const
 {
-    NewsItem* newNews = new NewsItem(other.name, other.text, other.link, other.settngsLink);
+    NewsItem* newNews = new NewsItem(other.name, other.text, other.link, other.settngsLink, other.img);
     return (* newNews);
 }
 
@@ -77,6 +79,19 @@ void NewsItem::setSettingsLink(QString settingsLink)
     this->settngsLink = settingsLink;
 }
 
+
+void NewsItem::setupImage(QNetworkReply *reply)
+{
+    if (reply->error() != QNetworkReply::NoError) {
+    return;
+    }
+
+    QByteArray jpegData = reply->readAll();
+    QPixmap pixmap;
+    pixmap.loadFromData(jpegData);
+    ui->image->setPixmap(pixmap.scaled(60, 60, Qt::KeepAspectRatio));
+}
+
 NewsItem::~NewsItem()
 {
     delete ui;
@@ -87,15 +102,14 @@ void NewsItem::on_readButton_clicked()
     emit readItemNews(this->link);
 }
 
-QPixmap *NewsItem::getImg() const
+QString NewsItem::getImg() const
 {
     return img;
 }
 
-void NewsItem::setImg(QPixmap *value)
+void NewsItem::setImg(QString value)
 {
     img = value;
-    ui->label->setPixmap(*img);
 }
 
 QString NewsItem::getLink() const
