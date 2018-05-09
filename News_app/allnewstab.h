@@ -30,7 +30,9 @@ public:
     void loadNewsFromLenta();
     void loadNewsFromMeduza();
     void clearList();
+    void clearAllNews();
     void setUser(const QString &value);
+    void checkFavorites(NewsItem* news);
 
 private:
     Ui::AllNewsTab *ui;
@@ -45,7 +47,7 @@ private slots:
     void getParsedNews(QNetworkReply* reply);
     void convertReplyToImage(QNetworkReply *reply);
     void readNews (QString link);
-    void addFavoriteNews(NewsItem news);
+    void addFavoriteNews(NewsItem *news);
 
 signals:
     void readNewsSignal(QString link);

@@ -75,6 +75,7 @@ void AllNewsTab::onFinishXMLParse()
 void AllNewsTab::addItemToList(QListWidgetItem *item, NewsItem* news)
 {
     item->setSizeHint(QSize(0, 100));
+    checkFavorites(news);
     ui->newsListWidget->addItem(item);
     ui->newsListWidget->setItemWidget(item, transformToWidget(news));
 }
@@ -95,9 +96,9 @@ QWidget *AllNewsTab::transformToWidget(NewsItem * news)
     QUrl url(w->getImg());
     QNetworkRequest request(url);
     m_netwManager->get(request);
-
+    w->setIsInFavorites(news->getIsInFavorites());
     connect(w, SIGNAL(readItemNews(QString)), this, SLOT(readNews(QString)));
-    connect(w, SIGNAL(addItemToFavorite(NewsItem)), this, SLOT(addFavoriteNews(NewsItem)));
+    connect(w, SIGNAL(addItemToFavorite(NewsItem *)), this, SLOT(addFavoriteNews(NewsItem *)));
     return w;
 }
 
@@ -125,13 +126,35 @@ void AllNewsTab::loadNewsFromMeduza()
 
 void AllNewsTab::clearList()
 {
-    allNews->clear();
     ui->newsListWidget->clear();
+}
+
+void AllNewsTab::clearAllNews()
+{
+    allNews->clear();
 }
 
 void AllNewsTab::setUser(const QString &value)
 {
     user = value;
+}
+
+void AllNewsTab::checkFavorites(NewsItem* news)
+{
+    QStringList list = settings->allKeys();
+    QStringList indexesForUser = QStringList();
+    foreach (QString key, list) {
+        if(key.contains("fav/"+ user) && key.endsWith("text")){
+            indexesForUser << key.left(key.lastIndexOf(QChar('/')));
+        }
+    }
+    foreach (QString key, indexesForUser){
+        QString link = settings->value(key + "/link").toString();
+        if (!QString::compare(link, news->getLink(), Qt::CaseInsensitive)){
+            news->setIsInFavorites(true);
+        }
+    }
+
 }
 
 void AllNewsTab::downloadImage(QString url)
@@ -142,7 +165,7 @@ void AllNewsTab::downloadImage(QString url)
     connect(networkManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(convertReplyToImage(QNetworkReply*)));
 }
 
-void AllNewsTab::addFavoriteNews(NewsItem news)
+void AllNewsTab::addFavoriteNews(NewsItem *news)
 {
     QStringList list = settings->allKeys();
     QList<int> indexesForUser = QList<int>();
@@ -159,10 +182,11 @@ void AllNewsTab::addFavoriteNews(NewsItem news)
             qSort(indexesForUser);
             index = ++indexesForUser.last();
         }
-        news.setSettingsLink("/fav/" + user + "/" + QString::number(index));
-        settings->setValue(news.getSettingsLink() + "/text", news.getText());
-        settings->setValue(news.getSettingsLink() + "/name", news.getName());
-        settings->setValue(news.getSettingsLink() + "/link", news.getLink());
+        news->setSettingsLink("/fav/" + user + "/" + QString::number(index));
+        settings->setValue(news->getSettingsLink() + "/text", news->getText());
+        settings->setValue(news->getSettingsLink() + "/name", news->getName());
+        settings->setValue(news->getSettingsLink() + "/link", news->getLink());
+        news->setIsInFavorites(true);
         emit updateFavorites();
 }
 

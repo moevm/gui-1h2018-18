@@ -41,6 +41,7 @@ void GroupsTab::removeFromFavorite(FavoriteItem news)
 {
     settings->remove(news.getSettingsLink());
     updateList();
+    emit favoritesUpdated();
 }
 
 void GroupsTab::readNews(QString link)

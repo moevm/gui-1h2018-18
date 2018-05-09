@@ -14,6 +14,7 @@ MainWindow::MainWindow(QWidget *parent, QString userLogin) :
     QObject::connect(ui->settingsTab, SIGNAL(hideMainWindow()), this, SLOT(hide()));
     QObject::connect(ui->settingsTab, SIGNAL(changeList()), this, SLOT(updateNewsTab()));
     QObject::connect(ui->allNewsTab, SIGNAL(updateFavorites()), this, SLOT(updateGroupsTab()));
+    QObject::connect(ui->groupsTab, SIGNAL(favoritesUpdated()), this, SLOT(updateFavoritesInNewsTab()));
     ui->settingsTab->setUser(userLogin);
     ui->allNewsTab->setUser(userLogin);
     ui->groupsTab->setUser(userLogin);
@@ -38,6 +39,7 @@ void MainWindow::prevoiusPage()
 void MainWindow::updateNewsTab()
 {
     ui->allNewsTab->clearList();
+    ui->allNewsTab->clearAllNews();
     int meduza = ui->settingsTab->getMeduzaChecked();
     int lenta = ui->settingsTab->getLentaChecked();
     if (meduza == Qt::Checked) {
@@ -46,6 +48,11 @@ void MainWindow::updateNewsTab()
     if (lenta == Qt::Checked) {
         ui->allNewsTab->loadNewsFromLenta();
     }
+}
+
+void MainWindow::updateFavoritesInNewsTab() {
+    ui->allNewsTab->clearList();
+    ui->allNewsTab->onFinishXMLParse();
 }
 
 void MainWindow::updateGroupsTab()

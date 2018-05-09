@@ -15,7 +15,7 @@ class NewsItem : public QWidget
 
 public:
     explicit NewsItem(QWidget *parent = 0);
-    explicit NewsItem(QString name, QString text, QString link, QString settingsLink, QString img, QWidget *parent = 0);
+    explicit NewsItem(QString name, QString text, QString link, QString settingsLink, QString img, bool isInFavorites=false, QWidget *parent = 0);
     NewsItem(const NewsItem&, QWidget *parent = 0);
     NewsItem operator=(const NewsItem& other) const;
     void setName(QString);
@@ -32,6 +32,9 @@ public:
     QString getImg() const;
     void setImg(QString value);
 
+    bool getIsInFavorites() const;
+    void setIsInFavorites(bool value);
+
 private slots:
     void on_readButton_clicked();
     void on_addToFavButton_clicked();
@@ -39,7 +42,7 @@ private slots:
 
 signals:
     void readItemNews(QString newsLink);
-    void addItemToFavorite(NewsItem newsItem);
+    void addItemToFavorite(NewsItem *newsItem);
 private:
     Ui::NewsItem *ui;
     QString text;
@@ -47,6 +50,7 @@ private:
     QString link;
     QString settngsLink;
     QString img;
+    bool isInFavorites;
 
 
 };

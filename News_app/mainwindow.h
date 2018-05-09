@@ -19,6 +19,7 @@ private slots:
     void nextPage();
     void prevoiusPage();
     void updateNewsTab();
+    void updateFavoritesInNewsTab();
     void updateGroupsTab();
 
 private:

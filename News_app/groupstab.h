@@ -36,6 +36,9 @@ private:
 private slots:
     void removeFromFavorite(FavoriteItem news);
     void readNews (QString link);
+
+signals:
+    void favoritesUpdated();
 };
 
 #endif // GROUPSTAB_H

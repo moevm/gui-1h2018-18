@@ -8,7 +8,7 @@ NewsItem::NewsItem(QWidget *parent) :
     ui->setupUi(this);
 }
 
-NewsItem::NewsItem(QString name, QString text, QString link, QString settingsLink, QString img, QWidget *parent):
+NewsItem::NewsItem(QString name, QString text, QString link, QString settingsLink, QString img, bool isInFavorites, QWidget *parent):
     QWidget(parent),
     ui(new Ui::NewsItem)
 {
@@ -18,8 +18,10 @@ NewsItem::NewsItem(QString name, QString text, QString link, QString settingsLin
     this->link = link;
     this->settngsLink = settingsLink;
     this->img = img;
+    this->isInFavorites = isInFavorites;
     ui->newsTitle->setText(this->name);
     ui->textBrowser->setText(this->text);
+    ui->addToFavButton->setDisabled(isInFavorites);
 }
 
 NewsItem::NewsItem(const NewsItem & other, QWidget *parent):
@@ -32,13 +34,15 @@ NewsItem::NewsItem(const NewsItem & other, QWidget *parent):
     this->link = other.link;
     this->settngsLink = other.settngsLink;
     this->img = other.img;
+    this->isInFavorites = other.isInFavorites;
     ui->newsTitle->setText(this->name);
     ui->textBrowser->setText(this->text);
+    ui->addToFavButton->setDisabled(isInFavorites);
 }
 
 NewsItem NewsItem::operator=(const NewsItem &other) const
 {
-    NewsItem* newNews = new NewsItem(other.name, other.text, other.link, other.settngsLink, other.img);
+    NewsItem* newNews = new NewsItem(other.name, other.text, other.link, other.settngsLink, other.img, other.isInFavorites);
     return (* newNews);
 }
 
@@ -92,6 +96,17 @@ void NewsItem::setupImage(QNetworkReply *reply)
     ui->image->setPixmap(pixmap.scaled(60, 60, Qt::KeepAspectRatio));
 }
 
+bool NewsItem::getIsInFavorites() const
+{
+    return isInFavorites;
+}
+
+void NewsItem::setIsInFavorites(bool value)
+{
+    isInFavorites = value;
+    ui->addToFavButton->setDisabled(isInFavorites);
+}
+
 NewsItem::~NewsItem()
 {
     delete ui;
@@ -124,5 +139,6 @@ void NewsItem::setLink(const QString &value)
 
 void NewsItem::on_addToFavButton_clicked()
 {
-    emit addItemToFavorite(*this);
+    isInFavorites = true;
+    emit addItemToFavorite(this);
 }
