@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package>
+    <DisplayName>News Agregator</DisplayName>
+    <Description>This application agregates news from Lenta.ru and Meduza.io.</Description>
+    <Version>1.0.0-1</Version>
+    <ReleaseDate>2018-05-21</ReleaseDate>
+    <Default>true</Default>
+    <Script>installscript.qs</Script>
+</Package>

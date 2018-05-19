@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Installer>
+    <Name>News Application Installer</Name>
+    <Version>1.0.0</Version>
+    <Title>News Agregator Application</Title>
+    <Publisher>MO_EVM_PI</Publisher>
+    <!-- Directory name is used in component.xml -->
+    <StartMenuDir>NewsApp</StartMenuDir>
+    <TargetDir>@HomeDir@/NewsApp</TargetDir>
+</Installer>
